@@ -50,7 +50,6 @@ exports.createBlogController = async (req, res) => {
 
     const newBlog = new blogModel({ title, description, image, user });
     const session = await mongoose.startSession();
-    session.startTransaction();
     await newBlog.save({ session });
     exisitingUser.blogs.push(newBlog);
     await exisitingUser.save({ session });

@@ -59,42 +59,55 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-//login
+const jwt = require("jsonwebtoken");
+
+// login
 exports.loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    //validation
+
+    // Validation
     if (!email || !password) {
       return res.status(401).send({
         success: false,
-        message: "Please provide email or password",
+        message: "Please provide email and password",
       });
     }
+
+    // Find user
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(200).send({
+      return res.status(400).send({
         success: false,
-        message: "email is not registerd",
+        message: "Email is not registered",
       });
     }
-    //password
+
+    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).send({
         success: false,
-        message: "Invlid username or password",
+        message: "Invalid username or password",
       });
     }
+
+    // Generate JWT Token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h", // Token expires in 1 hour
+    });
+
     return res.status(200).send({
       success: true,
-      messgae: "login successfully",
+      message: "Login successful",
+      token,  // Send token in response
       user,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "Error In Login Callcback",
+      message: "Error in login callback",
       error,
     });
   }

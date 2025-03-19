@@ -4,9 +4,9 @@
   "description": "blog app",
   "main": "server.js",
   "scripts": {
-    "start": "node serevr.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
-    "client":"npm start --prefix ./client",
+    "client": "npm start --prefix ./client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "techinfoyt",
@@ -14,12 +14,15 @@
   "dependencies": {
     "bcrypt": "^5.1.0",
     "colors": "^1.4.0",
-    "concurrently": "^7.6.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.4.7",
     "express": "^4.18.2",
-    "mongoose": "^6.10.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^6.13.8",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
